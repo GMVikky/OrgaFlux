@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ArrowLeft, Shield, CreditCard, MapPin } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 
@@ -21,9 +21,60 @@ interface CustomerDetails {
   billingPincode?: string;
 }
 
+interface RazorpayResponse {
+  razorpay_payment_id: string;
+  razorpay_order_id: string;
+  razorpay_signature: string;
+}
+
+interface RazorpayOptions {
+  key: string;
+  amount: number;
+  currency: string;
+  name: string;
+  description: string;
+  order_id: string;
+  handler: (response: RazorpayResponse) => Promise<void>;
+  prefill: {
+    name: string;
+    email: string;
+    contact: string;
+  };
+  notes: {
+    orderId: string;
+    items: string;
+  };
+  theme: {
+    color: string;
+  };
+  modal: {
+    ondismiss: () => void;
+  };
+}
+
+interface OrderData {
+  orderId: string;
+  customerName: string;
+  email: string;
+  phone: string;
+  address: string;
+  items: Array<{
+    name: string;
+    quantity: number;
+    price: number;
+  }>;
+  total: number;
+  paymentStatus: string;
+  razorpayPaymentId?: string;
+  razorpayOrderId?: string;
+  razorpaySignature?: string;
+}
+
 declare global {
   interface Window {
-    Razorpay: any;
+    Razorpay: new (options: RazorpayOptions) => {
+      open: () => void;
+    };
   }
 }
 
@@ -41,7 +92,7 @@ export default function CheckoutPage({ onNavigate }: CheckoutPageProps) {
   });
   const [isProcessing, setIsProcessing] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<'razorpay' | 'qr'>('razorpay');
+  const [paymentMethod] = useState<'razorpay' | 'qr'>('razorpay');
   const [showQRCode, setShowQRCode] = useState(false);
 
   const shipping = total >= 499 ? 0 : 49;
@@ -56,7 +107,7 @@ export default function CheckoutPage({ onNavigate }: CheckoutPageProps) {
     return 'NS' + Date.now() + Math.random().toString(36).substr(2, 5).toUpperCase();
   };
 
-  const submitToGoogleForms = async (orderData: any) => {
+  const submitToGoogleForms = async (orderData: OrderData) => {
     const formData = new FormData();
     
     // TODO: Replace these entry IDs with your actual Google Form field IDs
@@ -83,6 +134,38 @@ export default function CheckoutPage({ onNavigate }: CheckoutPageProps) {
     }
   };
 
+  const handleQRPayment = () => {
+    setIsProcessing(true);
+    setShowQRCode(true);
+  };
+
+  const confirmQRPayment = async () => {
+    const orderId = generateOrderId();
+    
+    const orderData: OrderData = {
+      orderId: orderId,
+      customerName: customerDetails.name,
+      email: customerDetails.email,
+      phone: customerDetails.phone,
+      address: `${customerDetails.address}, ${customerDetails.city}, ${customerDetails.state} ${customerDetails.pincode}`,
+      items: items.map(item => ({
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price
+      })),
+      total: finalTotal,
+      paymentStatus: 'Completed'
+    };
+
+    // Submit to Google Forms
+    await submitToGoogleForms(orderData);
+
+    // Clear cart and navigate to success page
+    clearCart();
+    setShowQRCode(false);
+    onNavigate(`order-success?orderId=${orderId}`);
+  };
+
   const handlePayment = async () => {
     if (!termsAccepted) {
       alert('Please accept the terms and conditions');
@@ -105,16 +188,16 @@ export default function CheckoutPage({ onNavigate }: CheckoutPageProps) {
 
     const orderId = generateOrderId();
 
-    const options = {
-      key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_YOUR_RAZORPAY_KEY', // Replace with your Razorpay key
+    const options: RazorpayOptions = {
+      key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_RHL0EY3cPQO5qF',
       amount: finalTotal * 100, // Amount in paise
       currency: 'INR',
       name: 'NatureSnacks',
       description: 'Premium Healthy Snacks Purchase',
       order_id: orderId,
-      handler: async function (response: any) {
+      handler: async function (response: RazorpayResponse) {
         // Payment successful
-        const orderData = {
+        const orderData: OrderData = {
           orderId: orderId,
           customerName: customerDetails.name,
           email: customerDetails.email,
