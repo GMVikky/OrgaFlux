@@ -12,7 +12,7 @@ export default function Footer({ onNavigate }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="col-span-1 md:col-span-2">
-            <h3 className="text-2xl font-bold text-green-400 mb-4">NatureSnacks</h3>
+            <h3 className="text-2xl font-bold text-green-400 mb-4">OrgaFlux</h3>
             <p className="text-gray-300 mb-6 max-w-md">
               Premium quality healthy snacks, nuts, and dried fruits sourced directly from farmers. 
               Committed to providing nutritious and delicious products for your healthy lifestyle.
@@ -73,17 +73,17 @@ export default function Footer({ onNavigate }: FooterProps) {
             <div className="space-y-3">
               <div className="flex items-center space-x-2">
                 <Phone size={16} className="text-green-400" />
-                <span className="text-gray-300 text-sm">+91 98765 43210</span>
+                <span className="text-gray-300 text-sm">+91 9573704159</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Mail size={16} className="text-green-400" />
-                <span className="text-gray-300 text-sm">support@naturesnacks.com</span>
+                <span className="text-gray-300 text-sm">supportOrgaflux@gmail.com</span>
               </div>
               <div className="flex items-start space-x-2">
                 <MapPin size={16} className="text-green-400 mt-0.5" />
                 <span className="text-gray-300 text-sm">
-                  123 Organic Street<br />
-                  Green Valley, Mumbai 400001
+                  10/21, LeelaMahal<br />
+                  Tirupati, Andhra Pradesh, 517501
                 </span>
               </div>
             </div>
@@ -93,7 +93,7 @@ export default function Footer({ onNavigate }: FooterProps) {
         <div className="border-t border-gray-800 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-400 text-sm">
-              © 2024 NatureSnacks. All rights reserved.
+              © 2025 OrgaFlux. All rights reserved.
             </p>
             <div className="flex space-x-6 text-sm">
               <button 

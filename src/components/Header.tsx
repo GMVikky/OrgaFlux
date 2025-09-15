@@ -35,7 +35,7 @@ export default function Header({ onNavigate, currentPage }: HeaderProps) {
             className="flex-shrink-0 cursor-pointer"
             onClick={() => onNavigate('home')}
           >
-            <h1 className="text-2xl font-bold text-green-700">NatureSnacks</h1>
+            <h1 className="text-2xl font-bold text-green-700">OrgaFlux</h1>
           </div>
 
           {/* Desktop Navigation */}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react'; // Remove React, keep only useState
 import { CartProvider } from './contexts/CartContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -59,9 +59,9 @@ function App() {
       case 'track-order':
         return <TrackOrderPage onNavigate={handleNavigate} />;
       case 'about':
-        return <AboutPage onNavigate={handleNavigate} />;
+        return <AboutPage />;  // Remove unused onNavigate
       case 'contact':
-        return <ContactPage onNavigate={handleNavigate} />;
+        return <ContactPage />; // Remove unused onNavigate
       default:
         return <HomePage onNavigate={handleNavigate} onProductClick={handleProductClick} />;
     }
@@ -80,7 +80,8 @@ function App() {
   );
 }
 
-// Placeholder components for remaining pages
+// Fix placeholder components by removing unused onNavigate parameters
+
 function OrderSuccessPage({ onNavigate, orderId }: { onNavigate: (page: string) => void; orderId: string }) {
   return (
     <div className="min-h-screen bg-gray-50 py-16">
@@ -215,19 +216,28 @@ function TrackOrderPage({ onNavigate }: { onNavigate: (page: string) => void }) 
             </div>
           )}
         </div>
+        
+        <div className="mt-6 text-center">
+          <button
+            onClick={() => onNavigate('home')}
+            className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold transition-colors duration-200"
+          >
+            Back to Home
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
-function AboutPage({ onNavigate }: { onNavigate: (page: string) => void }) {
+function AboutPage() { // Remove unused onNavigate parameter
   return (
     <div className="min-h-screen bg-gray-50 py-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">About NatureSnacks</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-8">About OrgaFlux</h1>
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
           <p className="text-gray-700 leading-relaxed mb-6">
-            At NatureSnacks, we believe in the power of natural, wholesome nutrition. Founded with a passion for healthy living, 
+            At OrgaFlux, we believe in the power of natural, wholesome nutrition. Founded with a passion for healthy living, 
             we source the finest nuts, dried fruits, and healthy snacks directly from trusted farmers and suppliers.
           </p>
           <p className="text-gray-700 leading-relaxed mb-6">
@@ -235,7 +245,7 @@ function AboutPage({ onNavigate }: { onNavigate: (page: string) => void }) {
             We're dedicated to making healthy snacking accessible, delicious, and convenient for everyone.
           </p>
           <p className="text-gray-700 leading-relaxed">
-            Join thousands of satisfied customers who trust NatureSnacks for their daily nutrition needs. 
+            Join thousands of satisfied customers who trust OrgaFlux for their daily nutrition needs. 
             Because when it comes to your health, you deserve nothing but the best nature has to offer.
           </p>
         </div>
@@ -244,7 +254,7 @@ function AboutPage({ onNavigate }: { onNavigate: (page: string) => void }) {
   );
 }
 
-function ContactPage({ onNavigate }: { onNavigate: (page: string) => void }) {
+function ContactPage() { // Remove unused onNavigate parameter
   return (
     <div className="min-h-screen bg-gray-50 py-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -255,15 +265,15 @@ function ContactPage({ onNavigate }: { onNavigate: (page: string) => void }) {
             <div className="space-y-4">
               <div>
                 <h3 className="font-medium text-gray-900">Phone</h3>
-                <p className="text-gray-600">+91 98765 43210</p>
+                <p className="text-gray-600">+91 95737 04159</p>
               </div>
               <div>
                 <h3 className="font-medium text-gray-900">Email</h3>
-                <p className="text-gray-600">support@naturesnacks.com</p>
+                <p className="text-gray-600">supportOrgaflux@gmail.com</p>
               </div>
               <div>
                 <h3 className="font-medium text-gray-900">Address</h3>
-                <p className="text-gray-600">123 Organic Street<br />Green Valley, Mumbai 400001</p>
+                <p className="text-gray-600">12/23 Leela Mahal<br />Tirupati, Andhra Pradesh 517501</p>
               </div>
             </div>
           </div>

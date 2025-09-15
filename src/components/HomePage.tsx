@@ -43,8 +43,8 @@ export default function HomePage({ onNavigate, onProductClick }: HomePageProps) 
               <div>
                 <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
                   Premium
-                  <span className="text-green-600 block">Healthy Snacks</span>
-                  <span className="text-orange-500">& Dry Fruits</span>
+                  <span className="text-green-600 block">Healthy</span>
+                  <span className="text-orange-500">Dry Fruits Snacks</span>
                 </h1>
                 <p className="text-lg text-gray-600 mt-6 max-w-xl">
                   Discover our collection of naturally sourced, premium quality healthy snacks. 
